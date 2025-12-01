@@ -14,7 +14,23 @@ valida_scelta(scelta) (con return)
 - prende come parametro il valore scelto
 - Verifica se è A, B, C o D usando if
 - Restituisce True se valida, False altrimenti
+
+genera_feedback(scelta) (con return)
+- Prende come parametro la lettera che è stata scelta
+- Usa if/elif/else per determinare il messaggio
+- Restituisce la stringa con il feedback personalizzato
+
 """
+
+def genera_feedback(scelta: str) -> str:
+    """
+    Restituisce il messaggio che indica all'utente se ha indovinato la risposta oppure no.
+    Questa funzione viene eseguita solo se la funzione di validazione restituisce true.
+    """
+    if scelta.upper() == "A": 
+        return "Hai indovinato!"
+    else:
+        return "Non hai indovinato. Ritenta!"
 
 def valida_scelta(scelta: str) -> bool:
     """
@@ -52,8 +68,13 @@ def raccogli_risposta() -> str:
     
 
 mostra_domanda()
-
 risposta_da_validare: str = raccogli_risposta()
 risposta_validata: bool = valida_scelta(risposta_da_validare)
+feedback: str = ""
 
-print(risposta_validata)
+if risposta_validata == True:
+    feedback = genera_feedback(risposta_da_validare)
+else: 
+    feed = "Inserisci solo la risposta tra le opzioni elencate"
+
+print(feedback)
