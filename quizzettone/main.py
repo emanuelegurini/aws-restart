@@ -10,12 +10,19 @@ def mostra_feedback(messaggio: str) -> None:
 {simbol}
 """)
 
-def genera_feedback(scelta: str) -> str:
+def is_risposta_esatta(scelta: str) -> bool:
+    if scelta.upper() == "A":
+        return True
+    else:
+        return False
+
+
+def genera_feedback(is_corretta: bool) -> str:
     """
     Restituisce il messaggio che indica all'utente se ha indovinato la risposta oppure no.
-    Questa funzione viene eseguita solo se la funzione di validazione restituisce true.
+    Questa funzione viene eseguita solo se la funzione di validazione restituisce true. 
     """
-    if scelta.upper() == "A":
+    if is_corretta == True:
         return "Hai indovinato!"
     else:
         return "Non hai indovinato. Ritenta!"
@@ -64,9 +71,8 @@ def main():
         feedback: str = ""
 
         if risposta_validata == True:
-            feedback = genera_feedback(risposta_da_validare)
-            if feedback == "Hai indovinato!":
-                is_risposta_corretta = True
+            is_risposta_corretta = is_risposta_esatta(risposta_da_validare)
+            feedback = genera_feedback(is_risposta_corretta)
         else: 
             feedback = "Inserisci solo la risposta tra le opzioni elencate"
 
