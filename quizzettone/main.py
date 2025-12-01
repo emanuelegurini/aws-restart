@@ -20,7 +20,22 @@ genera_feedback(scelta) (con return)
 - Usa if/elif/else per determinare il messaggio
 - Restituisce la stringa con il feedback personalizzato
 
+mostra_feedback(messaggio) (senza return)
+- Prende come parametro una stringa
+- Stampa il feedback in modo formattato
+- Non restituisce nulla
 """
+
+def mostra_feedback(messaggio: str) -> None:
+    """
+    Restituisce il feedback formattato nella maniera desiderata.
+    """
+    simbol: str = "*"*30
+    print(f"""
+{simbol}
+{messaggio}
+{simbol}
+""")
 
 def genera_feedback(scelta: str) -> str:
     """
@@ -77,4 +92,4 @@ if risposta_validata == True:
 else: 
     feedback = "Inserisci solo la risposta tra le opzioni elencate"
 
-print(feedback)
+mostra_feedback(feedback)
