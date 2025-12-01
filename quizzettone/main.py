@@ -75,6 +75,6 @@ feedback: str = ""
 if risposta_validata == True:
     feedback = genera_feedback(risposta_da_validare)
 else: 
-    feed = "Inserisci solo la risposta tra le opzioni elencate"
+    feedback = "Inserisci solo la risposta tra le opzioni elencate"
 
 print(feedback)
