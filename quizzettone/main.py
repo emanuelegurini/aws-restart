@@ -69,6 +69,23 @@ def estrai_risposta(content: str, index: int) -> str:
     return content[index+1:]
 
 def main():
+    domande_list: list[str] = []
+    qa: dict[str, str] = {
+        "domanda" : None,
+        "risposta" : None
+    }
+
+    with open("domande.txt", "r") as f:
+        for i in f:
+            domande_list.append(i.strip())
+
+    content: str = leggi_file(f"domande_risposte/{domande_list[1]}")
+    index: int = estrai_index(content)
+    qa["domanda"] = estrai_domanda(content, index)
+    qa["risposta"] = estrai_risposta(content, index)
+
+    print(qa)
+    """
     file_path: str = sys.argv[1]
     content: str = leggi_file(file_path)
     index: int = estrai_index(content)
@@ -76,6 +93,7 @@ def main():
     risposta: str = estrai_risposta(content, index)
 
     is_risposta_corretta: bool = False
+
     while True:
         mostra_domanda(domanda)
         risposta_da_validare: str = raccogli_risposta()
@@ -91,6 +109,7 @@ def main():
         mostra_feedback(feedback)
         if is_risposta_corretta == True: 
             break
+    """
 
 # Entry point del nostro programma
 main()
