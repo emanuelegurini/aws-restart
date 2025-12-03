@@ -1,3 +1,36 @@
+# dizionari
+
+personaggio1: dict[str,str] = {
+    "nome" : "Pippo",
+    "tipo" : "cane",
+    "email": "pippo@disney.com"
+}
+
+print(personaggio1["email"])
+
+personaggio1["telefono"] = "0719799200"
+
+personaggio1["telefono"] = "0719799201"
+
+personaggio1["nome"] = "Minnie"
+
+print(personaggio1.get("telefono"))
+print(personaggio1.get("nome"))
+
+for chiave, valore in personaggio1.items():
+    print(f"{chiave}:{valore}")
+
+
+
+
+
+
+
+
+
+
+# liste
+"""
 stringhe: list[str] = ["Pippo"]
 
 stringhe.append("Pluto")
@@ -20,6 +53,8 @@ else:
 print("*"*30)
 print(stringhe)
 print(deleted_values)
+"""
+
 
 
 
