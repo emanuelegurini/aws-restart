@@ -92,16 +92,50 @@ def genera_statistiche(risultato_finale: list[dict[str, str | bool]]) -> dict[st
     return statistica
 
 def main():
-    domande_list: list[str] = []
-    qa: dict[str, str] = {
-        "domanda" : None,
-        "risposta" : None
-    }
-    counter: int = 0
-    domande_list = estrai_lista_domande("domande.txt")
-    counter = len(domande_list)
+    lista_domande: list[str] = []
     risultato_finale: list[dict[str, str | bool]] = []
+    domanda_e_risposta: dict[str, str] = {"domanda" : None, "risposta" : None}
+    lista_domande = estrai_lista_domande("domande.txt")
 
+    counter_domanda_corrente: int = 0
+
+    lista_domande_length: int = len(lista_domande)
+
+    while counter_domanda_corrente < lista_domande_length:
+        content: str = leggi_file(f"domande_risposte/{lista_domande[counter_domanda_corrente]}")
+        index: int = estrai_index(content)
+        domanda_e_risposta["domanda"] = estrai_domanda(content, index)
+        domanda_e_risposta["risposta"] = estrai_risposta(content, index)
+
+        mostra_domanda(domanda_e_risposta["domanda"])
+
+        risposta_utente: str = raccogli_risposta()
+
+        is_risposta_valid: bool = valida_scelta(risposta_utente)
+
+        feedback: str = ""
+
+        if is_risposta_valid:
+            risultato: dict[str, str | bool] = {}
+            is_risposta_corretta: bool = is_risposta_esatta(risposta_utente, domanda_e_risposta["risposta"])
+            feedback = genera_feedback(is_risposta_corretta)
+            risultato["domanda"] = lista_domande[counter_domanda_corrente]
+            risultato["risposta_corretta"] = is_risposta_corretta
+            risultato_finale.append(risultato)
+            counter_domanda_corrente += 1
+        else: 
+            feedback = "Inserisci solo la risposta tra le opzioni elencate"
+
+        mostra_feedback(feedback)
+
+    statistiche: dict[str, int] = genera_statistiche(risultato_finale)
+
+    print(statistiche["risposte_esatte"])
+    print(statistiche["risposte_non_esatte"])   
+
+
+
+    """
     for q in range(counter):
         risultato: dict[str, str | bool] = {}
         content: str = leggi_file(f"domande_risposte/{domande_list[q]}")
@@ -130,7 +164,7 @@ def main():
 
     print(statistiche["risposte_esatte"])
     print(statistiche["risposte_non_esatte"])
-
+    """ 
 
     
 
