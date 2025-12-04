@@ -68,23 +68,45 @@ def estrai_domanda(content: str, index: int) -> str:
 def estrai_risposta(content: str, index: int) -> str:
     return content[index+1:]
 
+def estrai_lista_domande(file_path: str) -> list[str]:
+    lista_domande: list[str] = []
+    with open(file_path, "r") as f:
+        for i in f:
+            lista_domande.append(i.strip())
+    return lista_domande 
+
+
 def main():
     domande_list: list[str] = []
     qa: dict[str, str] = {
         "domanda" : None,
         "risposta" : None
     }
+    counter: int = 0
 
-    with open("domande.txt", "r") as f:
-        for i in f:
-            domande_list.append(i.strip())
+    domande_list = estrai_lista_domande("domande.txt")
 
-    content: str = leggi_file(f"domande_risposte/{domande_list[1]}")
-    index: int = estrai_index(content)
-    qa["domanda"] = estrai_domanda(content, index)
-    qa["risposta"] = estrai_risposta(content, index)
+    counter = len(domande_list)
 
-    print(qa)
+    for q in range(counter):
+        content: str = leggi_file(f"domande_risposte/{domande_list[q]}")
+        index: int = estrai_index(content)
+        qa["domanda"] = estrai_domanda(content, index)
+        qa["risposta"] = estrai_risposta(content, index)
+        mostra_domanda(qa["domanda"])
+        answer: str = raccogli_risposta()
+        is_risposta_valid: bool = valida_scelta(answer)
+
+        feedback: str = ""
+
+        if is_risposta_valid == True:
+            is_risposta_corretta: bool = is_risposta_esatta(answer, qa["risposta"])
+            feedback = genera_feedback(is_risposta_corretta)
+        else: 
+            feedback = "Inserisci solo la risposta tra le opzioni elencate"
+        
+        print(feedback)
+
     """
     file_path: str = sys.argv[1]
     content: str = leggi_file(file_path)
