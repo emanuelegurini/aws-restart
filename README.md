@@ -12,7 +12,7 @@ Gli argomenti trattati coprono l'intero ciclo di sviluppo e gestione cloud:
 * **Sistemi e Cloud:** Linux, AWS Cloud Practitioner (preparazione alla certificazione) e AWS Architecting (livello avanzato);
 * **Gestione Progetti:** Project Management.
 
-## Docenti
+## Trainer
 
 * **[Emanuele Gurini](https://www.linkedin.com/in/emanuelegurini/)**: Responsabile dei moduli tecnici (Python, Django, AWS, Linux, AI Tools).
 * **[Paola Lombardi](https://it.linkedin.com/in/paola-lombardi)**: Responsabile del modulo di Project Management ed AI Tools.
