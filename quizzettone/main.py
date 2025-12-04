@@ -26,7 +26,7 @@ def genera_feedback(is_corretta: bool) -> str:
     if is_corretta == True:
         return "Hai indovinato!"
     else:
-        return "Non hai indovinato. Ritenta!"
+        return "Non hai indovinato."
 
 def valida_scelta(scelta: str) -> bool:
     """
@@ -75,6 +75,21 @@ def estrai_lista_domande(file_path: str) -> list[str]:
             lista_domande.append(i.strip())
     return lista_domande 
 
+def genera_statistiche(risultato_finale: list[dict[str, str | bool]]) -> dict[str, int]:
+    statistica: dict[str, int] = {}
+
+    risposte_esatte: int = 0
+    risposte_non_esatte: int = 0
+
+    for i in risultato_finale: 
+        if i["risposta_corretta"]:
+            risposte_esatte += 1
+        else:
+            risposte_non_esatte += 1
+
+    statistica["risposte_esatte"] = risposte_esatte
+    statistica["risposte_non_esatte"] = risposte_non_esatte
+    return statistica
 
 def main():
     domande_list: list[str] = []
@@ -83,12 +98,12 @@ def main():
         "risposta" : None
     }
     counter: int = 0
-
     domande_list = estrai_lista_domande("domande.txt")
-
     counter = len(domande_list)
+    risultato_finale: list[dict[str, str | bool]] = []
 
     for q in range(counter):
+        risultato: dict[str, str | bool] = {}
         content: str = leggi_file(f"domande_risposte/{domande_list[q]}")
         index: int = estrai_index(content)
         qa["domanda"] = estrai_domanda(content, index)
@@ -102,10 +117,22 @@ def main():
         if is_risposta_valid == True:
             is_risposta_corretta: bool = is_risposta_esatta(answer, qa["risposta"])
             feedback = genera_feedback(is_risposta_corretta)
+            risultato["domanda"] = domande_list[q]
+            risultato["risposta_corretta"] = is_risposta_corretta
+            risultato_finale.append(risultato)
         else: 
             feedback = "Inserisci solo la risposta tra le opzioni elencate"
         
         print(feedback)
+
+
+    statistiche = genera_statistiche(risultato_finale)
+
+    print(statistiche["risposte_esatte"])
+    print(statistiche["risposte_non_esatte"])
+
+
+    
 
     """
     file_path: str = sys.argv[1]
