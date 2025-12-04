@@ -1,5 +1,3 @@
-import sys 
-
 def mostra_feedback(messaggio: str) -> None:
     """
     Restituisce il feedback formattato nella maniera desiderata.
@@ -133,66 +131,6 @@ def main():
     print(statistiche["risposte_esatte"])
     print(statistiche["risposte_non_esatte"])   
 
-
-
-    """
-    for q in range(counter):
-        risultato: dict[str, str | bool] = {}
-        content: str = leggi_file(f"domande_risposte/{domande_list[q]}")
-        index: int = estrai_index(content)
-        qa["domanda"] = estrai_domanda(content, index)
-        qa["risposta"] = estrai_risposta(content, index)
-        mostra_domanda(qa["domanda"])
-        answer: str = raccogli_risposta()
-        is_risposta_valid: bool = valida_scelta(answer)
-
-        feedback: str = ""
-
-        if is_risposta_valid == True:
-            is_risposta_corretta: bool = is_risposta_esatta(answer, qa["risposta"])
-            feedback = genera_feedback(is_risposta_corretta)
-            risultato["domanda"] = domande_list[q]
-            risultato["risposta_corretta"] = is_risposta_corretta
-            risultato_finale.append(risultato)
-        else: 
-            feedback = "Inserisci solo la risposta tra le opzioni elencate"
-        
-        print(feedback)
-
-
-    statistiche = genera_statistiche(risultato_finale)
-
-    print(statistiche["risposte_esatte"])
-    print(statistiche["risposte_non_esatte"])
-    """ 
-
-    
-
-    """
-    file_path: str = sys.argv[1]
-    content: str = leggi_file(file_path)
-    index: int = estrai_index(content)
-    domanda: str = estrai_domanda(content, index)
-    risposta: str = estrai_risposta(content, index)
-
-    is_risposta_corretta: bool = False
-
-    while True:
-        mostra_domanda(domanda)
-        risposta_da_validare: str = raccogli_risposta()
-        risposta_validata: bool = valida_scelta(risposta_da_validare)
-        feedback: str = ""
-
-        if risposta_validata == True:
-            is_risposta_corretta = is_risposta_esatta(risposta_da_validare, risposta)
-            feedback = genera_feedback(is_risposta_corretta)
-        else: 
-            feedback = "Inserisci solo la risposta tra le opzioni elencate"
-
-        mostra_feedback(feedback)
-        if is_risposta_corretta == True: 
-            break
-    """
 
 # Entry point del nostro programma
 main()
