@@ -1,13 +1,5 @@
-def mostra_feedback(messaggio: str) -> None:
-    """
-    Restituisce il feedback formattato nella maniera desiderata.
-    """
-    simbol: str = "*"*30
-    print(f"""
-{simbol}
-{messaggio}
-{simbol}
-""")
+from data_model_layer import get_domanda, get_lista_domande
+from frontend_layer import mostra_feedback, mostra_domanda, print_numero_domanda, print_gioco_terminato
 
 def is_risposta_esatta(scelta: str, risposta_esatta: str) -> bool:
     if scelta.upper() == risposta_esatta:
@@ -37,12 +29,6 @@ def valida_scelta(scelta: str) -> bool:
     else: 
         return False
 
-def mostra_domanda(domanda: str) -> None: 
-    """
-    Questa funzione restituisce la domanda e le opzioni della riposta. 
-    """
-    
-    print(domanda)
 
 def raccogli_risposta() -> str:
     """
@@ -51,11 +37,6 @@ def raccogli_risposta() -> str:
     """ 
     return input("Inserisci la tua scelta: ")
     
-
-def leggi_file(file_path: str) -> str:
-    with open(file_path, "r") as file:
-        content = file.read()
-        return content
 
 def estrai_index(content: str) -> int: 
     return content.index("£")
@@ -66,12 +47,6 @@ def estrai_domanda(content: str, index: int) -> str:
 def estrai_risposta(content: str, index: int) -> str:
     return content[index+1:]
 
-def estrai_lista_domande(file_path: str) -> list[str]:
-    lista_domande: list[str] = []
-    with open(file_path, "r") as f:
-        for i in f:
-            lista_domande.append(i.strip())
-    return lista_domande 
 
 def genera_statistiche(risultato_finale: list[dict[str, str | bool]]) -> dict[str, int]:
     statistica: dict[str, int] = {}
@@ -93,12 +68,6 @@ def get_numero_domanda_corrente(value: int) -> int:
     """Restituisce l'indice della domanda corrente, più uno, per l'utente"""
     return value + 1
 
-def print_numero_domanda(valore_domanda_corrente: int, valore_domande_totali: int) -> None:
-    """Restituisce l'indicatore della domanda corrente rispetto al numero di domande totali"""
-    print("------------------------------")
-    print(f"Domanda {valore_domanda_corrente} di {valore_domande_totali}")
-    print("------------------------------")
-
 def get_counter_aggiornato(counter: int, input: str) -> int:
     """Restituisce il valore del counter aggiornato per proseguire sulla domanda successiva o precedente"""
     if input.upper() == "P":
@@ -108,10 +77,11 @@ def get_counter_aggiornato(counter: int, input: str) -> int:
     
 
 def main():
+    
     lista_domande: list[str] = []
     risultato_finale: list[dict[str, str | bool]] = []
     domanda_e_risposta: dict[str, str] = {"domanda" : None, "risposta" : None}
-    lista_domande = estrai_lista_domande("domande.txt")
+    lista_domande = get_lista_domande("domande.txt")
 
     counter_domanda_corrente: int = 0
 
@@ -122,7 +92,7 @@ def main():
         if counter_domanda_corrente == lista_domande_length:
             break
         
-        content: str = leggi_file(f"domande_risposte/{lista_domande[counter_domanda_corrente]}")
+        content: str = get_domanda(f"domande_risposte/{lista_domande[counter_domanda_corrente]}")
         index: int = estrai_index(content)
         domanda_e_risposta["domanda"] = estrai_domanda(content, index)
         domanda_e_risposta["risposta"] = estrai_risposta(content, index)
@@ -163,13 +133,10 @@ def main():
 
     statistiche: dict[str, int] = genera_statistiche(risultato_finale)
     
-    print("*"*30)
-    print("Gioco terminato. Ecco i risultati:")
-    print("*"*30)
+    print_gioco_terminato()
 
     print(statistiche["risposte_esatte"])
     print(statistiche["risposte_non_esatte"])   
 
-
-# Entry point del nostro programma
-main()
+if __name__ == "__main__": 
+    main()
