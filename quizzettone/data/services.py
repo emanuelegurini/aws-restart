@@ -71,3 +71,19 @@ def calcola_percentuale(parte: int, totale: int) -> float:
 def verifica_superamento(percentuale: float, soglia: float = 60.0) -> bool:
     """Restituisce True se la percentuale è maggiore o uguale alla soglia."""
     return percentuale >= soglia
+
+def recupera_dati_domanda(nome_file: str) -> dict[str, str]:
+    """Gestisce il parsing di ogni domanda"""
+    content: str = get_domanda_e_risposta_singola(f"domande_risposte/{nome_file}")
+    index: int = estrai_indice_simbolo(content)
+    return {
+        "domanda" : estrai_domanda(content, index),
+        "risposta" : estrai_risposta(content, index)
+    }
+
+def aggiorna_lista_risultati(lista_risultati: list, nuovo_risultato: dict, indice: int) -> None:
+    """Aggiorna la lista dei risultati gestendo sia l'inserimento che la modifica."""
+    if indice < len(lista_risultati):
+        lista_risultati[indice] = nuovo_risultato
+    else:
+        lista_risultati.append(nuovo_risultato)

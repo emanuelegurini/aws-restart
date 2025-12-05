@@ -61,7 +61,7 @@ def mostra_risultati_finali(esatte: int, errate: int, totale: int, percentuale: 
     print(f"Risposte esatte:   {esatte}")
     print(f"Risposte errate:   {errate}")
     print("-" * 40)
-    print(f"Punteggio:         {percentuale:.1f}%") # .1f arrotonda a 1 decimale
+    print(f"Punteggio:         {percentuale:.1f}%") 
     print("-" * 40)
     
     if superato:
@@ -69,3 +69,27 @@ def mostra_risultati_finali(esatte: int, errate: int, totale: int, percentuale: 
     else:
         print("ESITO:             NON SUPERATO")
     print("="*40 + "\n")
+
+
+def gestisci_menu_fine_gioco(counter_attuale: int, totale_domande: int, risultati: list) -> int | None:
+    """
+    Gestisce la logica di fine gioco. 
+    Restituisce None se l'utente vuole uscire, oppure il nuovo indice se vuole rivedere una domanda.
+    """
+    mostra_riepilogo(risultati)
+    scelta = input("\nInserisci il numero della domanda da rivedere o premi INVIO per terminare: ")
+    
+    if scelta == "":
+        return None
+    elif scelta.isdigit():
+        numero = int(scelta)
+        if 1 <= numero <= totale_domande:
+            print(f"Torna alla domanda {numero}...")
+            return numero - 1 
+        else:
+            print("Numero non valido.")
+            return counter_attuale
+    else:
+        print("Input non valido.")
+        return counter_attuale
+
