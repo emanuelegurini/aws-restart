@@ -89,6 +89,16 @@ def genera_statistiche(risultato_finale: list[dict[str, str | bool]]) -> dict[st
     statistica["risposte_non_esatte"] = risposte_non_esatte
     return statistica
 
+def get_numero_domanda_corrente(value: int) -> int:
+    """Restituisce l'indice della domanda corrente, più uno, per l'utente"""
+    return value + 1
+
+def print_numero_domanda(valore_domanda_corrente: int, valore_domande_totali: int) -> None:
+    """Restituisce l'indicatore della domanda corrente rispetto al numero di domande totali"""
+    print("------------------------------")
+    print(f"Domanda {valore_domanda_corrente} di {valore_domande_totali}")
+    print("------------------------------")
+
 def main():
     lista_domande: list[str] = []
     risultato_finale: list[dict[str, str | bool]] = []
@@ -105,6 +115,8 @@ def main():
         domanda_e_risposta["domanda"] = estrai_domanda(content, index)
         domanda_e_risposta["risposta"] = estrai_risposta(content, index)
 
+        domanda_corrente: int = get_numero_domanda_corrente(counter_domanda_corrente)
+        print_numero_domanda(domanda_corrente, lista_domande_length)
         mostra_domanda(domanda_e_risposta["domanda"])
 
         risposta_utente: str = raccogli_risposta()
