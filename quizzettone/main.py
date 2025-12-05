@@ -117,9 +117,6 @@ def main():
 
     lista_domande_length: int = len(lista_domande)
 
-    print(type(lista_domande_length))
-    print(type(counter_domanda_corrente))
-
     while counter_domanda_corrente <= lista_domande_length:
 
         if counter_domanda_corrente == lista_domande_length:
