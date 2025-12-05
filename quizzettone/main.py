@@ -143,7 +143,12 @@ def main():
             feedback = genera_feedback(is_risposta_corretta)
             risultato["domanda"] = lista_domande[counter_domanda_corrente]
             risultato["risposta_corretta"] = is_risposta_corretta
-            risultato_finale.append(risultato)
+
+            if counter_domanda_corrente < len(risultato_finale):
+                risultato_finale[counter_domanda_corrente] = risultato
+            else:
+                risultato_finale.append(risultato)
+
         else: 
             feedback = "Inserisci solo la risposta tra le opzioni elencate"
 
@@ -155,15 +160,6 @@ def main():
         else:
             counter_domanda_corrente = counter_domanda_corrente + 1 
 
-
-        
-        # qui voglio dare la possibilità di andare avanti o tornare indietro 
-        # Cosa ci serve?
-            # input 
-            # aggiornare counter_domanda_corrente
-            # lista delle domande len (condizione)
-    
-    
 
     statistiche: dict[str, int] = genera_statistiche(risultato_finale)
     
