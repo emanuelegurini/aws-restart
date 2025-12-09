@@ -1,50 +1,56 @@
-"""
-CONTACARATTERI
+# CONTACARATTERI
 
-DOMINIO:
-=========
+# DOMINIO:
+# =========
 
-1. INPUT - Sorgente del testo
-   - Lettura da file di testo (.txt)
-   - Visualizzazione contenuto in console
+# 1. INPUT - Sorgente del testo
+#    - Lettura da file di testo (.txt)
+#    - Visualizzazione contenuto in console
 
-2. ELABORAZIONE - Metriche da calcolare
-   - Conteggio caratteri (con e senza spazi)
-   - Conteggio parole
-   - Conteggio frasi
-   - Conteggio paragrafi
-   - Tempo di lettura stimato
-   - Frequenza parole e lettere (ripetizioni)
+# 2. ELABORAZIONE - Metriche da calcolare
+#   - Conteggio caratteri (con e senza spazi)
+#   - Conteggio parole
+#   - Conteggio frasi
+#   - Conteggio paragrafi
+#   - Tempo di lettura stimato
+#   - Frequenza parole e lettere (ripetizioni)
 
-3. OUTPUT - Destinazione risultati
-   - Stampa in console
-   - Scrittura su file
+# 3. OUTPUT - Destinazione risultati
+#    - Stampa in console
+#    - Scrittura su file
 
-REGEX REFERENCE:
-================
+# REGEX REFERENCE:
+# ================
 
-Pattern                 | Descrizione
-------------------------|--------------------------------------------
-.                       | Tutti i caratteri (con re.DOTALL include \n)
-\S                      | Caratteri senza spazi
-[a-zA-ZÀ-ÿ]             | Solo lettere (incluse accentate)
-\w+                     | Parole (lettere, numeri, underscore)
-[a-zA-ZÀ-ÿ]+            | Parole solo lettere (incluse accentate)
-[^.!?]+[.!?]+           | Frasi (testo seguito da punteggiatura)
-testo.split('\\n\\n')   | Paragrafi (separati da riga vuota)
+# Pattern                 | Descrizione
+# ------------------------|--------------------------------------------
+# .                       | Tutti i caratteri (con re.DOTALL include \n)
+# \S                      | Caratteri senza spazi
+# [a-zA-ZÀ-ÿ]             | Solo lettere (incluse accentate)
+# \w+                     | Parole (lettere, numeri, underscore)
+# [a-zA-ZÀ-ÿ]+            | Parole solo lettere (incluse accentate)
+# [^.!?]+[.!?]+           | Frasi (testo seguito da punteggiatura)
+# testo.split('\\n\\n')   | Paragrafi (separati da riga vuota)
 
 # ===============================
 #   Regex Patterns
 # ===============================
 
-REGEX_TUTTI_CARATTERI = r'.'           # Tutti i caratteri (usare con re.DOTALL)
-REGEX_SENZA_SPAZI = r'\S'              # Caratteri esclusi gli spazi
-REGEX_SOLO_LETTERE = r'[a-zA-ZÀ-ÿ]'   # Solo lettere, incluse accentate
-REGEX_PAROLE = r'\w+'                  # Parole (lettere, numeri, underscore)
-REGEX_PAROLE_LETTERE = r'[a-zA-ZÀ-ÿ]+' # Parole composte solo da lettere
-REGEX_FRASI = r'[^.!?]+[.!?]+'         # Frasi terminate da . ! ?
+# REGEX_TUTTI_CARATTERI = r'.'           # Tutti i caratteri (usare con re.DOTALL)
+# REGEX_SENZA_SPAZI = r'\S'              # Caratteri esclusi gli spazi
+# REGEX_SOLO_LETTERE = r'[a-zA-ZÀ-ÿ]'   # Solo lettere, incluse accentate
+# REGEX_PAROLE = r'\w+'                  # Parole (lettere, numeri, underscore)
+# REGEX_PAROLE_LETTERE = r'[a-zA-ZÀ-ÿ]+' # Parole composte solo da lettere
+# REGEX_FRASI = r'[^.!?]+[.!?]+'         # Frasi terminate da . ! ?
 
-"""
+
+# ===============================
+#   TODO 
+# =============================== 
+
+# 1. Migliorare gestione delle eccezzioni
+# 2. Unificare gestione stream e buffer dati 
+# 3. Suddividere in moduli
 
 # ===============================
 #   Repository
