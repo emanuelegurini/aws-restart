@@ -45,15 +45,18 @@
 
 from ui.console import print_risultato
 from data.services import get_caratteri_len, get_phrase_number, get_text_len_no_space, get_words_number
-from data.repository import get_file_content
+from data.repository import get_data_from_server
+from constant import URL
 
 def main() -> None:
     try:
-        content: str = get_file_content("text.txt")
+        # content: str = get_file_content("text.txt")
+        content: str = get_data_from_server(URL)
         print_risultato(get_caratteri_len(content), "caratteri")
         print_risultato(get_text_len_no_space(content), "caratteri senza spazi")
         print_risultato(get_words_number(content), "parole")
         print_risultato(get_phrase_number(content), "frasi")
+
 
     except ValueError as e:
         print(f"{e}")
