@@ -43,55 +43,17 @@
 # REGEX_PAROLE_LETTERE = r'[a-zA-ZÀ-ÿ]+' # Parole composte solo da lettere
 # REGEX_FRASI = r'[^.!?]+[.!?]+'         # Frasi terminate da . ! ?
 
-
-# ===============================
-#   TODO 
-# =============================== 
-
-# 1. Migliorare gestione delle eccezzioni
-# 2. Unificare gestione stream e buffer dati 
-# 3. Suddividere in moduli
-
-# ===============================
-#   Repository
-# =============================== 
-
-def get_file_content(file_path: str) -> str:
-    if not file_path:
-        raise ValueError("Il file path non può essere vuoto!")
-
-    try:
-        with open(file_path, "r") as f:
-            return f.read()
-
-    except FileNotFoundError:
-        raise FileNotFoundError("Il file non esiste")
-
-# ===============================
-#   Services
-# =============================== 
-
-def get_caratteri_len(text: str) -> int:
-    """Restituisce il numero di caratteri presenti in una stringa, compresi gli spazi vuoti. """
-    if not text:
-        return 0
-    return len(text)
-
-
-import re
-
-def get_text_len_no_space(text: str) -> int:
-    """Restituisce il numero di caratteri presenti in una stringa, senza contare gli spazi vuoti. """
-    if not text:
-        return 0
-    return len(re.findall(r'\S', text))
+from ui.console import print_risultato
+from data.services import get_caratteri_len, get_phrase_number, get_text_len_no_space, get_words_number
+from data.repository import get_file_content
 
 def main() -> None:
     try:
         content: str = get_file_content("text.txt")
-        print(get_caratteri_len(content))
-        print(get_text_len_no_space(content))
-
+        print_risultato(get_caratteri_len(content), "caratteri")
+        print_risultato(get_text_len_no_space(content), "caratteri senza spazi")
+        print_risultato(get_words_number(content), "parole")
+        print_risultato(get_phrase_number(content), "frasi")
 
     except ValueError as e:
         print(f"{e}")
@@ -102,11 +64,9 @@ def main() -> None:
     except Exception as e:
         print(f"{e}")
 
-    finally:
-        print("fine try catch")
 
-
-main()
+if __name__ == "__main__":
+    main()
 
 
         
