@@ -56,8 +56,6 @@
 #   Repository
 # =============================== 
 
-from typing import TextIO
-
 def get_file_content(file_path: str) -> str:
     if not file_path:
         raise ValueError("Il file path non può essere vuoto!")
@@ -73,20 +71,27 @@ def get_file_content(file_path: str) -> str:
 #   Services
 # =============================== 
 
-def stampa_testo_input(text: TextIO) -> None:
-    with text as f:
-        content = f.read()
-        print(content)
+def get_caratteri_len(text: str) -> int:
+    """Restituisce il numero di caratteri presenti in una stringa, compresi gli spazi vuoti. """
+    if not text:
+        return 0
+    return len(text)
+
 
 import re
 
 def get_text_len_no_space(text: str) -> int:
-    print(len(re.findall(r'\S', text)))
+    """Restituisce il numero di caratteri presenti in una stringa, senza contare gli spazi vuoti. """
+    if not text:
+        return 0
+    return len(re.findall(r'\S', text))
 
 def main() -> None:
     try:
-        content: str = get_file_content("")
-        print(content)
+        content: str = get_file_content("text.txt")
+        print(get_caratteri_len(content))
+        print(get_text_len_no_space(content))
+
 
     except ValueError as e:
         print(f"{e}")
