@@ -58,9 +58,16 @@
 
 from typing import TextIO
 
-def get_file(file_path: str) -> TextIO:
-    """Restituisce un oggetto TextIO con il contenuto del file specificato"""
-    return open(file_path, "r")
+def get_file_content(file_path: str) -> str:
+    if not file_path:
+        raise ValueError("Il file path non può essere vuoto!")
+
+    try:
+        with open(file_path, "r") as f:
+            return f.read()
+
+    except FileNotFoundError:
+        raise FileNotFoundError("Il file non esiste")
 
 # ===============================
 #   Services
@@ -71,16 +78,6 @@ def stampa_testo_input(text: TextIO) -> None:
         content = f.read()
         print(content)
 
-def get_testo(text: TextIO) -> str:
-    with text as f:
-        content = f.read()
-        return content
-
-def get_text_len(text: str) -> int:
-    if text is None:
-        print("La stringa vuota")
-    print(len(text))
-
 import re
 
 def get_text_len_no_space(text: str) -> int:
@@ -88,12 +85,18 @@ def get_text_len_no_space(text: str) -> int:
 
 def main() -> None:
     try:
-        content: TextIO = get_file("text.txt")
-        get_text_len(get_testo(content))
-        get_text_len_no_space(get_testo(content))
-        
+        content: str = get_file_content("")
+        print(content)
+
+    except ValueError as e:
+        print(f"{e}")
+    
+    except FileNotFoundError as e:
+        print(f"{e}")
+    
     except Exception as e:
         print(f"{e}")
+
     finally:
         print("fine try catch")
 
