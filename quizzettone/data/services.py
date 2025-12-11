@@ -1,10 +1,4 @@
-from data.repository import get_file, get_data
-
-def get_domanda_e_risposta_singola(file_path: str) -> str:
-    with get_file(file_path) as file:
-        content = file.read()
-        return content
-
+from data.repository import get_data
 
 def get_lista_domande_e_risposte(URL: str) -> list[str]:
     if URL is None: 
@@ -74,9 +68,19 @@ def verifica_superamento(percentuale: float, soglia: float = 60.0) -> bool:
     """Restituisce True se la percentuale è maggiore o uguale alla soglia."""
     return percentuale >= soglia
 
-def recupera_dati_domanda(nome_file: str) -> dict[str, str]:
+def recupera_dati_domanda(URL: str) -> dict[str, str]:
     """Gestisce il parsing di ogni domanda"""
-    content: str = get_domanda_e_risposta_singola(f"domande_risposte/{nome_file}")
+    content: str = ""
+
+    if URL is None: 
+        raise ValueError("L'URL non può essere una stringa vuota!")
+    
+    try:
+        content = get_data(URL) 
+    
+    except Exception as e:
+        raise Exception(f"Prolema di tipo: {e}")
+
     index: int = estrai_indice_simbolo(content)
     return {
         "domanda" : estrai_domanda(content, index),

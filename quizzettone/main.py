@@ -17,14 +17,14 @@ from ui.console import (
     print_gioco_terminato, 
     genera_feedback, 
     raccogli_risposta,
-    mostra_risultati_finali,
     gestisci_menu_fine_gioco
 )
 
-URL = "https://raw.githubusercontent.com/emanuelegurini/aws-restart/refs/heads/main/quizzettone/domande.txt"
+from constants import LISTA_DOMANDE_URL, BASE_DOMANDA_SINGOLA_URL
+
 
 def main():
-    lista_domande = get_lista_domande_e_risposte(URL)
+    lista_domande = get_lista_domande_e_risposte(LISTA_DOMANDE_URL)
     risultato_finale: list[dict[str, str | bool]] = []
 
     counter: int = 0
@@ -40,7 +40,7 @@ def main():
             continue
         
         # recupero dei dati
-        dati_correnti = recupera_dati_domanda(lista_domande[counter]) 
+        dati_correnti = recupera_dati_domanda(f"{BASE_DOMANDA_SINGOLA_URL}/{lista_domande[counter]}") 
 
         # presentazione domande
         domanda_corrente: int = get_numero_domanda_corrente(counter)
