@@ -24,3 +24,4 @@ Il materiale è organizzato nelle seguenti cartelle per facilitare la consultazi
 * **Cartelle per data (es. `01-12-2025`)**: Contengono il codice sorgente scritto durante la lezione del giorno e gli esercizi pratici rivisti durante i meet;
 * **`quizzettone`**: Progetto applicativo sviluppato durante il corso;
 * **`conta-caratteri`**: Progetto dedicato alla logica di manipolazione delle stringhe.
+* **`fake-store`**: Progetto simulazione di un magazzino prodotti di un ecommerce, da riga di comando.
