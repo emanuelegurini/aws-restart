@@ -2,7 +2,7 @@ def is_lista_utente_filled(lista_utente: list[str]) -> bool:
     if len(lista_utente) < 3:
         return True
     else: 
-        False
+        return False
 
 def get_ingredente_formattato(ingrediente: str) -> str:
     if not ingrediente:
@@ -23,14 +23,14 @@ def log_message(message: str, type: str) -> None:
    if not message:
         log_message("Il messaggio non deve essere vuoto", "ALERT")
     
-    icon = None
-    match type:
-        case "ALERT":
-            icon = "⚠️"
-        case "INFO":
-            icon = "✅"
+   icon = None
+   match type:
+     case "ALERT":
+      icon = "⚠️"
+     case "INFO":
+      icon = "✅"
     
-    print(f"{icon} - {text}")
+   print(f"{icon} - {message}")
 
 
 
@@ -53,12 +53,12 @@ def main() -> None:
                 log_message("Ingrediente già inserito", "ALERT")
             else:
                 lista_utente.append(ingrediente_formattato)
-                log_message(lista_utente, "INFO")
+                print(lista_utente, "INFO")
             
         else: 
             log_message("Ingrediente non valido", "ALERT")
 
-     
+
     print("impasta e fai la pizza")
     print("End del programma")
 
