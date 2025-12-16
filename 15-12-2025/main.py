@@ -29,6 +29,8 @@ def log_message(message: str, type: str) -> None:
       icon = "⚠️"
      case "INFO":
       icon = "✅"
+     case "ERROR":
+      icon = "❌"
     
    print(f"{icon} - {message}")
 
