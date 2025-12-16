@@ -20,7 +20,7 @@ def main() -> None:
   print("Start del programma")
 
   controller: bool = True
-  counter : int = 1
+  counter: int = 1
 
   while controller:
     url = f"{BASE_URL}page={counter}&{END_URL}"
