@@ -5,7 +5,7 @@
 from requests import get
 import re
 
-BASE_URL: str = "https://github.com/emanuelegurini?" 
+BASE_URL: str = "https://github.com/emanuelegurini" 
 END_URL: str = "tab=followers"
 
 PATTERN = r'<a\s+[^>]*href="https://github\.com/([^/]+)\?page=(\d+)&amp;tab=followers"[^>]*>Next</a>'
@@ -23,7 +23,7 @@ def main() -> None:
   counter: int = 1
 
   while controller:
-    url = f"{BASE_URL}page={counter}&{END_URL}"
+    url = f"{BASE_URL}?page={counter}&{END_URL}"
     try:
       response = get(url)
 
