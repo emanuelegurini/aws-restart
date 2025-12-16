@@ -25,3 +25,4 @@ Il materiale è organizzato nelle seguenti cartelle per facilitare la consultazi
 * **`quizzettone`**: Progetto applicativo sviluppato durante il corso;
 * **`conta-caratteri`**: Progetto dedicato alla logica di manipolazione delle stringhe.
 * **`fake-store`**: Progetto simulazione di un magazzino prodotti di un ecommerce, da riga di comando.
+* **`whounfollowed`**: Progetto per verificare chi ha smesso di seguire il nostro profilo github.
