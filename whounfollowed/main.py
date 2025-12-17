@@ -1,12 +1,8 @@
-"""
-
-"""
-
 from requests import get
 import re
 
-BASE_URL: str = "https://github.com/emanuelegurini" 
-END_URL: str = "tab=followers"
+BASE_URL: int = "https://github.com/emanuelegurini" 
+END_URL: str = "tab=followers" 
 
 PATTERN = r'<a\s+[^>]*href="https://github\.com/([^/]+)\?page=(\d+)&amp;tab=followers"[^>]*>Next</a>'
 
