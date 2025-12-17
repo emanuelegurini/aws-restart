@@ -2,6 +2,8 @@
 
 import datetime
 import uuid
+from requests import RequestException
+from json import JSONDecodeError
 
 from github_client import (
     is_valid_username_format,
@@ -70,18 +72,25 @@ def create_record(usernames: list[str]) -> dict:
 
 
 def get_followers() -> None:
-    """Funzione principale: orchestra tutto il processo"""
-    username = prompt_for_valid_username()
+    try:
+        username = prompt_for_valid_username()
+        
+        if username is None:
+            print("Operazione annullata.")
+            return
 
-    if username is None:
-        print("Operazione annullata.")
-        return
+        page_count = scrape_all_followers_pages(username)
+        usernames = extract_all_usernames(page_count)
 
-    page_count = scrape_all_followers_pages(username)
-    usernames = extract_all_usernames(page_count)
+        record = create_record(usernames)
+        save_json_db(DB_PATH, record)
+        clear_tmp_dir()
 
-    record = create_record(usernames)
-    save_json_db(DB_PATH, record)
+        print(f"Salvati {len(usernames)} follower!")
 
-    clear_tmp_dir()
-    print(f"Salvati {len(usernames)} follower nel database!")
+    except RequestException as e:
+        print(f"Errore di connessione: {e}")
+    except JSONDecodeError as e:
+        print(f"Errore nel database: {e}")
+    except OSError as e:
+        print(f"Errore file system: {e}")
