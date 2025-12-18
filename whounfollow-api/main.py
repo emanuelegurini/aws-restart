@@ -66,6 +66,8 @@ DATA = [
 
 import datetime
 import uuid
+import os
+import json
 
 def extract_usernames(users: list[dict]) -> list[str]:
     usernames: list[str] = []
@@ -85,10 +87,50 @@ def create_record(usernames: list[str]) -> dict:
         'numberOfUsers': len(usernames)
     }
 
+def create_json_db(db_name: str) -> bool:
+    """Crea un nuovo file db con lista vuota."""
+    # Crea la cartella se non esiste
+    os.makedirs(os.path.dirname(db_name), exist_ok=True)
+
+    with open(db_name, "w") as f:
+        f.write("[]")
+    
+    return True
+
+def check_if_json_db_has_correct_shape(db_name: str) -> bool:
+    """Verifica che il db esiste ed è nella forma corretta."""
+    if not os.path.isfile(db_name):
+        return False
+    
+    with open(db_name, "r") as f:
+        data = json.load(f)
+        return isinstance(data, list)
+
+
+def save_json_db(db_name: str, new_value: dict) -> None: 
+    """Salva il nuovo oggetto nel db."""
+    if not check_if_json_db_has_correct_shape(db_name):
+        create_json_db(db_name)
+
+    db: list[dict] = []
+
+    with open(db_name, "r") as f:
+        db.extend(json.load(f))
+    
+    db.append(new_value)
+
+    with open(db_name, "w", encoding='utf-8') as f:
+        json.dump(db, f, indent=4, ensure_ascii=False)
+
 def main() -> None:
     print("Inizio programma")
+
     lista_test = extract_usernames(DATA)
-    print(create_record(lista_test))
+
+    record = create_record(lista_test)
+    
+    save_json_db("db/db.json", record)
+    print("fine programma")
 
 
 if __name__ == "__main__":

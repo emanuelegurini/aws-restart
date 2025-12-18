@@ -1,0 +1,22 @@
+[
+    {
+        "id": "06d70c5e-a740-4a95-8cee-9ff65d99af8d",
+        "creationAt": "2025-12-18T11:29:10.668Z",
+        "users": [
+            "lmammino",
+            "luduvigo",
+            "pfuhrmann"
+        ],
+        "numberOfUsers": 3
+    },
+    {
+        "id": "e8b8c4f7-d42e-47da-95a2-aa6711dc2f6c",
+        "creationAt": "2025-12-18T11:31:33.076Z",
+        "users": [
+            "lmammino",
+            "luduvigo",
+            "pfuhrmann"
+        ],
+        "numberOfUsers": 3
+    }
+]
