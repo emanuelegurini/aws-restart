@@ -34,6 +34,16 @@ def check_if_json_db_has_correct_shape(db_name: str) -> bool:
         return isinstance(data, list)
 
 
+def get_data_from_db(db_name: str) -> list[dict]:
+    """Prende tutto il contenuto del db e lo restituisce."""
+    if not check_if_json_db_has_correct_shape(db_name):
+        create_json_db(db_name)
+    
+    with open(db_name, "r") as f:
+        return json.load(f)
+
+
+
 def save_json_db(db_name: str, new_value: dict) -> None: 
     """Salva il nuovo oggetto nel db."""
     if not check_if_json_db_has_correct_shape(db_name):

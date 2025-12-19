@@ -1,9 +1,10 @@
 import json
 from requests import RequestException, Response
+from client_gemini import get_stat_from_gemini
 from client_github import fetch_users
 from config import base_url
 import re
-from repository import create_record, save_json_db
+from repository import create_record, save_json_db, get_data_from_db
 
 def extract_usernames(users: list[dict]) -> list[str]:
     usernames: list[str] = []
@@ -79,3 +80,9 @@ def get_followers() -> None:
         print(f"Errore nel database: {e}")
     except OSError as e:
         print(f"Errore file system: {e}")
+
+
+def get_statistiche() -> None:
+    print("Hai scelto di prendere le statiche!")
+    db_content = get_data_from_db("db/db.json")
+    get_stat_from_gemini(db_content)

@@ -1,5 +1,5 @@
 from console import print_menu
-from service import get_followers
+from service import get_followers, get_statistiche, get_statistiche
 
 def main() -> None:
 
@@ -12,7 +12,7 @@ def main() -> None:
             case "1":
                 get_followers()
             case "2":
-                print("Hai scelto di prendere le statiche!")
+                get_statistiche()
             case "3":
                 print("Hai scelto i dati di un giorno specifico!")
             case "exit":
