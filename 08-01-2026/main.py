@@ -1,88 +1,147 @@
-"""
-Progetti, task e tag hanno ciascuno un ID univoco (uuid).
+import sys
+from typing import List
 
-Task ha: titolo (univoco), completato sì/no, riferimento al progetto, lista di tag, date di creazione/completamento.
-"""
+from data import load_db, save_db
+import logic
+import ui
 
-import uuid
-import datetime
 
-projects: list[dict] = [{'id': 'b3d79aaf-4c9e-41a3-9e6a-b1bb977da4e5', 'name': 'pippo', 'description': 'boh', 'createdAt': '2026-01-08T08:56:27.826Z'}]
-tasks: list[dict] = []
+def handle_project_command(data, args: List[str]) -> None:
+    if not args:
+        ui.print_error("Missing subcommand for project")
+        return
 
-def create_task(title: str, project_id: str, tags: list) -> dict:
-    """crea un elemento task"""
-    now_utc = datetime.datetime.now(datetime.timezone.utc)
-    clean_date = now_utc.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+    sub = args[0]
+    if sub == "list":
+        ui.print_projects(data)
+    elif sub == "create":
+        if len(args) < 2:
+            ui.print_error("Usage: project create <name> [desc]")
+            return
+        name = args[1]
+        desc = args[2] if len(args) > 2 else ""
+        if logic.create_project(data, name, desc):
+            ui.print_success(f"Project '{name}' created.")
+            save_db(data)
+        else:
+            ui.print_error(f"Project '{name}' already exists.")
+    elif sub == "delete":
+        if len(args) < 2:
+            ui.print_error("Usage: project delete <name|id>")
+            return
+        if logic.delete_project(data, args[1]):
+            ui.print_success(f"Project '{args[1]}' deleted.")
+            save_db(data)
+        else:
+            ui.print_error(f"Project '{args[1]}' not found.")
+    else:
+        ui.print_error(f"Unknown project command: {sub}")
 
-    return {
-        'id': str(uuid.uuid4()),
-        'title': title,
-        "project_id": project_id,
-        "tags": tags,
-        'is_completed': False,
-        'created_at': clean_date,
-        'completed_at': None
-    }
 
-def check_task_name(title: str, tasks: list[dict]) -> bool: 
-    """verifica che non esista una task con lo stesso nome"""
-    result: bool = False
-    for t in tasks:
-        if t['title'] == title:
-            result = True
-            break 
-    return result 
+def handle_tag_command(data, args: List[str]) -> None:
+    if not args:
+        ui.print_error("Missing subcommand for tag")
+        return
     
-
-def check_project_name(name: str, projects: list[dict]) -> bool: 
-    """verifica che non esista un progetto con lo stesso nome"""
-    result: bool = False
-    for p in projects:
-        if p['name'] == name:
-            result = True
-            break 
-    return result 
-
-def create_project(name: str, description: str = "") -> dict:
-    """crea un elemento progetto"""
-    now_utc = datetime.datetime.now(datetime.timezone.utc)
-    clean_date = now_utc.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
-
-    return {
-        'id': str(uuid.uuid4()),
-        'name': name,
-        'description': description,
-        'createdAt': clean_date
-    }
-
-def save_task(title: str, project_id: str, tags: list ) -> None:
-    """salva il progetto nel db"""
-    if check_task_name(title, tasks):
-        raise ValueError(f"Il task '{title}' esiste già!")
-
-    task = create_task(title, project_id, tags)
-    tasks.append(task)
-    print(tasks)
-
-def save_project(name: str, description: str = "") -> None:
-    """salva il progetto nel db"""
-    if check_project_name(name, projects):
-        raise ValueError(f"Il progetto '{name}' esiste già!")
-
-    project = create_project(name, description)
-    projects.append(project)
-    print(projects)
-     
+    sub = args[0]
+    if sub == "list":
+        ui.print_tags(data)
+    elif sub == "create":
+        if len(args) < 2:
+            ui.print_error("Usage: tag create <name> [color]")
+            return
+        name = args[1]
+        color = args[2] if len(args) > 2 else "white"
+        if logic.create_tag(data, name, color):
+            ui.print_success(f"Tag '{name}' created.")
+            save_db(data)
+        else:
+            ui.print_error(f"Tag '{name}' already exists.")
+    elif sub == "delete":
+        if len(args) < 2:
+            ui.print_error("Usage: tag delete <name>")
+            return
+        if logic.delete_tag(data, args[1]):
+            ui.print_success(f"Tag '{args[1]}' deleted.")
+            save_db(data)
+        else:
+            ui.print_error(f"Tag '{args[1]}' not found.")
+    else:
+        ui.print_error(f"Unknown tag command: {sub}")
 
 
-def main() -> None: 
-    try:
-        print(save_task("compra pomodori", 'b3d79aaf-4c9e-41a3-9e6a-b1bb977da4e5', ["spesa"]))
-        print(save_task("compra pomodori", 'b3d79aaf-4c9e-41a3-9e6a-b1bb977da4e5', ["spesa"]))
+def handle_task_command(data, args: List[str]) -> None:
+    if not args:
+        ui.print_error("Missing subcommand for task")
+        return
 
-    except ValueError as e:
-        print(f"Errore: {e}")
+    sub = args[0]
+    if sub == "list":
+        project_filter = args[1] if len(args) > 1 else None
+        ui.print_tasks(data, project_filter)
+    elif sub == "add":
+        # task add <project> <title> [tag1,tag2]
+        if len(args) < 3:
+            ui.print_error("Usage: task add <project> <title> [tags]")
+            return
+        proj = args[1]
+        title = args[2]
+        tags = args[3].split(",") if len(args) > 3 else []
+        if logic.add_task(data, proj, title, tags):
+            ui.print_success(f"Task '{title}' added.")
+            save_db(data)
+        else:
+            ui.print_error("Could not add task. Check if project exists or title is unique.")
+    elif sub == "toggle":
+        if len(args) < 2:
+            ui.print_error("Usage: task toggle <title|id>")
+            return
+        if logic.toggle_task(data, args[1]):
+            ui.print_success(f"Task '{args[1]}' toggled.")
+            save_db(data)
+        else:
+            ui.print_error(f"Task '{args[1]}' not found.")
+    elif sub == "delete":
+        if len(args) < 2:
+            ui.print_error("Usage: task delete <title|id>")
+            return
+        if logic.delete_task(data, args[1]):
+            ui.print_success(f"Task '{args[1]}' deleted.")
+            save_db(data)
+        else:
+            ui.print_error(f"Task '{args[1]}' not found.")
+    else:
+        ui.print_error(f"Unknown task command: {sub}")
+
+
+def main() -> None:
+    data = load_db()
+    
+    ui.print_welcome()
+    
+    while True:
+        cmd, args = ui.read_command()
+        
+        if cmd == "exit":
+            print("Bye!")
+            break
+        elif cmd == "help":
+            ui.print_help()
+        elif cmd == "project":
+            handle_project_command(data, args)
+        elif cmd == "tag":
+            handle_tag_command(data, args)
+        elif cmd == "task":
+            handle_task_command(data, args)
+        elif cmd == "":
+            continue
+        else:
+            ui.print_error(f"Unknown command: {cmd}")
+
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nBye!")
+        sys.exit(0)
