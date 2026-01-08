@@ -59,7 +59,7 @@ def create_project(name: str, description: str = "") -> dict:
 def save_task(title: str, project_id: str, tags: list ) -> None:
     """salva il progetto nel db"""
     if check_task_name(title, tasks):
-        raise ValueError(f"Il progetto '{title}' esiste già!")
+        raise ValueError(f"Il task '{title}' esiste già!")
 
     task = create_task(title, project_id, tags)
     tasks.append(task)
@@ -75,6 +75,14 @@ def save_project(name: str, description: str = "") -> None:
     print(projects)
      
 
-print(save_task("compra pomodori", 'b3d79aaf-4c9e-41a3-9e6a-b1bb977da4e5', ["spesa"]))
-print(save_task("compra pomodori", 'b3d79aaf-4c9e-41a3-9e6a-b1bb977da4e5', ["spesa"]))
 
+def main() -> None: 
+    try:
+        print(save_task("compra pomodori", 'b3d79aaf-4c9e-41a3-9e6a-b1bb977da4e5', ["spesa"]))
+        print(save_task("compra pomodori", 'b3d79aaf-4c9e-41a3-9e6a-b1bb977da4e5', ["spesa"]))
+
+    except ValueError as e:
+        print(f"Errore: {e}")
+
+if __name__ == "__main__":
+    main()
