@@ -37,3 +37,6 @@ class Todolist:
             print("Il projetto con questo ID non esiste.")
 
         project.set_project_name(new_name)
+
+    def get_first_list_project(self) -> Project:
+        return self.projects[0]

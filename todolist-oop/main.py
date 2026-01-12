@@ -67,15 +67,18 @@ def add_new_task(todolist: Todolist):
 def get_task_list(todolist: Todolist):
     print("Lista i task")
 
-    get_project_list(todolist)
+    project : Project | None  = None
     
-    id_progetto = input("Inserisci l'id del progetto del quale vuoi conoscere il numero di task: ") 
+    if todolist.get_projects_lenght() is 1:
+        project = todolist.get_first_list_project()
+    else: 
+        get_project_list(todolist)
+        id_progetto = input("Inserisci l'id del progetto del quale vuoi conoscere il numero di task: ") 
+        project = todolist.get_project_by_id(id_progetto)
 
-    project = todolist.get_project_by_id(id_progetto)
-
-    if project is None:
-        print("Il pogetto non esiste!")
-        return
+        if project is None:
+            print("Il pogetto non esiste!")
+            return
 
     print(f"Numero di task: {project.get_tasks_lenght()}")
 
