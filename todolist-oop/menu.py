@@ -7,5 +7,6 @@ class Menu:
     4. List Pojects
     5. List Task
     6. List Tags
-    7. exit
+    7. Modifica nome progetto
+    8. Exit
     """)
