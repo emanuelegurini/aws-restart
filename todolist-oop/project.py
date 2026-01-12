@@ -1,4 +1,5 @@
 import uuid
+from task import Task
 
 class Project:
     def __init__(self, name: str):
@@ -21,3 +22,6 @@ class Project:
     def set_project_name(self, new_name:str) -> None:
         """Set the project name (usefull for update)"""
         self.name = new_name
+
+    def add_task(self, new_task: Task) -> None:
+        self.task_list.append(new_task)
