@@ -17,13 +17,13 @@ def main():
         match i:
             case "1": add_new_project(todolist)
             case "2": add_new_task(todolist)
-            case "3": print("Aggiungi tag") 
+            case "3": print("\n=== Aggiungi Tag ===") 
             case "4": get_project_list(todolist)
             case "5": get_task_list(todolist)
-            case "6": print("Lista i tags")
+            case "6": print("\n=== Visualizza Tag ===")
             case "7": update_project_name(todolist)
             case "8": break
-            case _: print("Inserisci il valore corretto")
+            case _: print("Input non valido.")
 
 
 if __name__ == "__main__":
