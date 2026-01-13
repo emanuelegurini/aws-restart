@@ -2,13 +2,15 @@ from project import Project
 from task import Task
 from todolist import Todolist
 
+
 def get_project_list(todolist: Todolist) -> None:
     """Returns the project list"""
-    print("="*20)
+    print("=" * 20)
     print("Lista dei progetti:")
-    print("="*20)
+    print("=" * 20)
 
     todolist.get_projects()
+
 
 def update_project_name(todolist: Todolist):
     """
@@ -23,7 +25,6 @@ def update_project_name(todolist: Todolist):
         return
 
     while True:
-
         new_name = input("Iserisci il nuovo nome del progetto: ")
 
         if not new_name:
@@ -43,20 +44,21 @@ def update_project_name(todolist: Todolist):
 
         print(f"Update eseguito con successo per l'oggetto {id_progetto}")
         break
-    
+
+
 def add_new_project(todolist: Todolist):
     """
     This functions executes the full process to add a new projects.
     If a project with the same name already exists, it doesn't add the project to the list.
-    """ 
+    """
     print("Hai scelto aggiungi progetto")
-    print("="*30)
+    print("=" * 30)
 
     project_name = input("Inserisci nome del progetto: ")
 
     if not project_name:
         print("Nome non valido.")
-    
+
     if todolist.is_project_name_already_exists(project_name):
         print(f"Un oggetto con il nome {project_name} esiste già")
         return
@@ -66,29 +68,39 @@ def add_new_project(todolist: Todolist):
         todolist.add_project(new_project)
 
     except (ValueError, TypeError) as e:
-            print(f"Errore: {e}")
-            return
-
-    print(f"il numero di progetti è: {todolist.get_projects_length()}")
-
-def add_new_task(todolist: Todolist):
-    print("Aggiungi task")
-    get_project_list(todolist)
-
-    id_progetto = input("Inserisci l'id del progetto al quale aggiungere la task: ").strip()
-    if not id_progetto:
-        print("Id non valido.")
-        return
-
-    try:
-        project = todolist.get_project_by_id(id_progetto)
-    except (ValueError, TypeError) as e:
         print(f"Errore: {e}")
         return
 
-    if project is None:
-        print("Il progetto non esiste!")
+    print(f"il numero di progetti è: {todolist.get_projects_length()}")
+
+
+def add_new_task(todolist: Todolist):
+    print("Aggiungi task")
+    n = todolist.get_projects_length()
+    if n == 0:
+        print("Non ci sono progetti.")
         return
+
+    if n == 1:
+        project = todolist.get_first_list_project()
+    else:
+        get_project_list(todolist)
+        id_progetto = input(
+            "Inserisci l'id del progetto al quale aggiungere la task: "
+        ).strip()
+        if not id_progetto:
+            print("Id non valido.")
+            return
+
+        try:
+            project = todolist.get_project_by_id(id_progetto)
+        except (ValueError, TypeError) as e:
+            print(f"Errore: {e}")
+            return
+
+        if project is None:
+            print("Il progetto non esiste!")
+            return
 
     task_title = input("Inserisci il title della task: ").strip()
     if not task_title:
