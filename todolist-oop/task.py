@@ -15,7 +15,7 @@ class Task:
         return self.title
     
     def set_title(self, new_title):
-        if not isinstance(title, str):
+        if not isinstance(new_title, str):
             raise TypeError("new_title must be a str instance.") 
         
         if  not new_title or not new_title.strip():
