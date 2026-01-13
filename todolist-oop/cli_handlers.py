@@ -16,19 +16,20 @@ def update_project_name(todolist: Todolist):
     """
     This function contains al the logic related to the update project name process
     """
+    print("\n=== Aggiorna Nome Progetto ===")
     get_project_list(todolist)
 
-    id_progetto = input("Inserisci l'id del progetto da aggiornare: ")
+    id_progetto = input("ID del progetto: ")
 
     if not id_progetto:
-        print("Nome non valido.")
+        print("Input non valido.")
         return
 
     while True:
-        new_name = input("Iserisci il nuovo nome del progetto: ")
+        new_name = input("Nuovo nome: ")
 
         if not new_name:
-            print("Nome non valido.")
+            print("Input non valido.")
             continue
 
         if todolist.is_project_name_already_exists(new_name):
@@ -51,13 +52,13 @@ def add_new_project(todolist: Todolist):
     This functions executes the full process to add a new projects.
     If a project with the same name already exists, it doesn't add the project to the list.
     """
-    print("Hai scelto aggiungi progetto")
+    print("\n=== Aggiungi Nuovo Progetto ===")
     print("=" * 30)
 
-    project_name = input("Inserisci nome del progetto: ")
+    project_name = input("Nome del progetto: ")
 
     if not project_name:
-        print("Nome non valido.")
+        print("Input non valido.")
 
     if todolist.is_project_name_already_exists(project_name):
         print(f"Un oggetto con il nome {project_name} esiste già")
@@ -75,7 +76,7 @@ def add_new_project(todolist: Todolist):
 
 
 def add_new_task(todolist: Todolist):
-    print("Aggiungi task")
+    print("\n=== Aggiungi Nuova Task ===")
     n = todolist.get_projects_length()
     if n == 0:
         print("Non ci sono progetti.")
@@ -86,10 +87,10 @@ def add_new_task(todolist: Todolist):
     else:
         get_project_list(todolist)
         id_progetto = input(
-            "Inserisci l'id del progetto al quale aggiungere la task: "
+            "ID progetto di destinazione: "
         ).strip()
         if not id_progetto:
-            print("Id non valido.")
+            print("ID non valido.")
             return
 
         try:
@@ -102,7 +103,7 @@ def add_new_task(todolist: Todolist):
             print("Il progetto non esiste!")
             return
 
-    task_title = input("Inserisci il title della task: ").strip()
+    task_title = input("Titolo della task: ").strip()
     if not task_title:
         print("Titolo non valido.")
         return
@@ -127,9 +128,9 @@ def get_task_list(todolist: Todolist):
         project = todolist.get_first_list_project()
     else:
         get_project_list(todolist)
-        id_progetto = input("Inserisci l'id del progetto: ").strip()
+        id_progetto = input("ID del progetto: ").strip()
         if not id_progetto:
-            print("Id non valido.")
+            print("ID non valido.")
             return
         try:
             project = todolist.get_project_by_id(id_progetto)

@@ -1,12 +1,12 @@
 class Menu:
     def printMenu(self) -> None:
         print(f"""
-    1. Add Project
-    2. Add Task
-    3. Add Tag
-    4. List Pojects
-    5. List Task
-    6. List Tags
-    7. Modifica nome progetto
-    8. Exit
+    1. Aggiungi Progetto
+    2. Aggiungi Task
+    3. Aggiungi Tag
+    4. Visualizza Progetti
+    5. Visualizza Task
+    6. Visualizza Tag
+    7. Modifica Nome Progetto
+    8. Esci
     """)
