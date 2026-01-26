@@ -17,7 +17,7 @@ def get_projects_list(request):
     """
     try:
         # select_related ottimizza la query (un solo JOIN invece di N query)
-        projects = Project.objects.select_related('project').all()
+        projects = Project.objects.select_related('project').all() # SELECT * FROM project;
         
         projects_list = []
         for project in projects:
