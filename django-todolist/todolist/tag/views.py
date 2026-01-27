@@ -1,10 +1,34 @@
-from django.db import IntegrityError
+from django.db import IntegrityError, OperationalError
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.http import JsonResponse
 import json
 from tag.models import Tag
+
+@csrf_exempt
+@require_GET
+def get_tags(request):
+    try:
+        tags = list(Tag.objects.all().values())
+
+        return JsonResponse(tags, safe=False, status=200)
+    
+    except OperationalError:
+        return JsonResponse({'error': 'Database non disponibile'}, status=503)
+
+@csrf_exempt
+@require_GET
+def get_tags_by_task_id(request, task_id):
+    try:
+        tags = list(Tag.objects.filter(tasks=task_id).values())
+
+        return JsonResponse(tags, safe=False, status=200)
+    
+    except OperationalError:
+        return JsonResponse({'error': 'Database non disponibile'}, status=503)
+
+
 
 @csrf_exempt
 @require_POST
