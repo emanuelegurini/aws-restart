@@ -1,8 +1,9 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST, require_GET
 from django.db import OperationalError, transaction, IntegrityError
+from rest_framework_simplejwt.authentication import JWTAuthentication
 import json
 
 from project.models import Project
@@ -10,14 +11,17 @@ from project_details.models import ProjectDetails
 
 # Create your views here.
 
-@require_GET
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_projects_list(request):
     """
     Restituisce la lista di tutti i progetti con i relativi details
     """
+    print(request.user)
     try:
         # select_related ottimizza la query (un solo JOIN invece di N query)
-        projects = Project.objects.select_related('project').all() # SELECT * FROM project;
+        projects = Project.objects.filter(user=request.user).select_related('project').all() # SELECT * FROM project;
         
         projects_list = []
         for project in projects:
@@ -41,11 +45,14 @@ def get_projects_list(request):
     except OperationalError:
         return JsonResponse({'error': 'Database non disponibile'}, status=503)
 
-@require_POST
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def add_project(request):
     """
     Aggiunge un nuovo progetto e i relativi details
     """
+
     try:
         data = json.loads(request.body)
         
@@ -53,6 +60,7 @@ def add_project(request):
             # Crea il progetto
             project = Project.objects.create(
                 name=data['name'],
+                user=request.user
             )
             
             # Crea automaticamente i details collegati
@@ -64,6 +72,7 @@ def add_project(request):
         return JsonResponse({
             'id': project.id,
             'name': project.name,
+
             'details': {
                 'notes': project_details.notes,
             }
