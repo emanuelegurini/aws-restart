@@ -3,6 +3,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
 from django.db import IntegrityError, OperationalError
 import json
+
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from project.models import Project
 from task.models import Task
 from tag.models import Tag
@@ -34,14 +39,15 @@ def add_tag(request):
         return JsonResponse({'error': 'Tag non trovato'}, status=404)
 
 
-@csrf_exempt
-@require_POST
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def create_task(request):
     try:
         data = json.loads(request.body)
         
         # Verifica che il progetto esista
-        project = Project.objects.get(id=data['project_id'])
+        project = Project.objects.filter(user=request.user).get(id=data['project_id'])
         
         task = Task.objects.create(
             title=data['title'],
@@ -67,13 +73,14 @@ def create_task(request):
     except IntegrityError:
         return JsonResponse({'error': 'Task già esistente'}, status=409)
 
-@csrf_exempt
-@require_GET
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_task(request, project_id):
     try:
         # 1. Usa filter() invece di get() - un progetto può avere più task
         # 2. Usa values() per serializzare
-        tasks = list(Task.objects.filter(project_id=project_id).values())
+        tasks = list(Task.objects.filter(project__user_id=request.user, project_id=project_id).values())
         
         return JsonResponse(tasks, safe=False, status=200)
     
